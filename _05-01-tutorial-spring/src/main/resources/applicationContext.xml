@@ -26,8 +26,8 @@
         </property>
     </bean>
 
-    <bean id="userService" class="org.example.UserService">
-        <property name="emailService" ref="emailService"/>
-        <property name="twitterService" ref="twitterService"/>
+    <bean id="userService" class="org.example.UserService" autowire="constructor">
+<!--        <property name="emailService" ref="emailService"/>-->
+<!--        <property name="twitterService" ref="twitterService"/>-->
     </bean>
 </beans>

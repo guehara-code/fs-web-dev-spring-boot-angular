@@ -6,7 +6,10 @@ public class UserService {
 
     private MessageService twitterService;
 
-
+    public UserService(EmailService emailService, TwitterService twitterService) {
+        this.emailService = emailService;
+        this.twitterService = twitterService;
+    }
 
     public void notifyUsers() {
         boolean result1 = this.emailService.sendMessage();
