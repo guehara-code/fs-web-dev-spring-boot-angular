@@ -2,14 +2,33 @@ package org.example;
 
 public class UserService {
 
-    private MessageService messageService;
+    private MessageService emailService;
 
-    public UserService(MessageService messageService) {
-        this.messageService = messageService;
-    }
+    private MessageService twitterService;
+
+
 
     public void notifyUsers() {
-        boolean result = this.messageService.sendMessage();
-        System.out.println("result is: " + result);
+        boolean result1 = this.emailService.sendMessage();
+        System.out.println("result is: " + result1);
+
+        boolean result2 = this.twitterService.sendMessage();
+        System.out.println("result is: " + result2);
+    }
+
+    public MessageService getEmailService() {
+        return emailService;
+    }
+
+    public void setEmailService(MessageService emailService) {
+        this.emailService = emailService;
+    }
+
+    public MessageService getTwitterService() {
+        return twitterService;
+    }
+
+    public void setTwitterService(MessageService twitterService) {
+        this.twitterService = twitterService;
     }
 }
