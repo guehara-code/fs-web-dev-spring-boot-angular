@@ -8,6 +8,6 @@ public class UrlNotAccessFailureAnalyser extends AbstractFailureAnalyzer<UrlAcce
     @Override
     protected FailureAnalysis analyze(Throwable rootFailure, UrlAccessException cause) {
         return new FailureAnalysis("Unable to access the URL" + cause.getUrl(),
-                "Ensure the URL is accessible");
+                "Ensure the URL is accessible", cause);
     }
 }
