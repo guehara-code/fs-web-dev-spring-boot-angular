@@ -29,9 +29,10 @@ public class BookRestController {
         if(insertedBook == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity(insertedBook.getId(), HttpStatus.OK)
+        return new ResponseEntity(insertedBook.getId(), HttpStatus.OK);
     }
 
+    @PostMapping("/update")
     public ResponseEntity updateBook(@RequestBody Book book) {
         bookService.updateBook(book);
         return new ResponseEntity<>(HttpStatus.OK);
