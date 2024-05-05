@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -12,6 +13,8 @@
 </head>
 <body>
 <div class="container my-2">
+    Hello <b sec:authentication="principal.Username"></b>
+    <a href="/logout" style="float:right">Logout</a>
     <h1>Library Management System</h1>
     <div class="card">
         <div class="card-body">
