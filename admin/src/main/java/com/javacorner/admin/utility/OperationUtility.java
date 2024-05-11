@@ -1,8 +1,12 @@
 package com.javacorner.admin.utility;
 
+import com.javacorner.admin.dao.RoleDao;
 import com.javacorner.admin.dao.UserDao;
+import com.javacorner.admin.entity.Role;
 import com.javacorner.admin.entity.User;
 import jakarta.persistence.EntityNotFoundException;
+
+import java.util.List;
 
 public class OperationUtility {
 
@@ -11,6 +15,14 @@ public class OperationUtility {
         updateUser(userDao);
         deleteUser(userDao);
         fetchUsers(userDao);
+    }
+
+    public static void rolesOperations(RoleDao roleDao) {
+        createRoles(roleDao);
+        updateRole(roleDao);
+        deleteRole(roleDao);
+        fetchRole(roleDao);
+
     }
 
     private static void createUsers(UserDao userDao) {
@@ -38,6 +50,39 @@ public class OperationUtility {
 
     private static void fetchUsers(UserDao userDao) {
         userDao.findAll().forEach(user -> System.out.println(user.toString()));
+    }
+
+    private static void createRoles(RoleDao roleDao) {
+        Role role1 = new Role("Admin");
+        roleDao.save(role1);
+        Role role2 = new Role("Instructor");
+        roleDao.save(role2);
+        Role role3 = new Role("Student");
+        roleDao.save(role3);
+    }
+
+    private static void updateRole(RoleDao roleDao) {
+        Role role = roleDao.findById(1L).orElseThrow(() -> new EntityNotFoundException("Role Not Found"));
+        role.setName("NewAdmin");
+        roleDao.save(role);
+    }
+
+    private static void deleteRole(RoleDao roleDao) {
+        roleDao.deleteById(2L);
+    }
+
+    private static void fetchRole(RoleDao roleDao) {
+        roleDao.findAll().forEach(role -> System.out.println(role.toString()));
+    }
+
+    public static void assignRolesToUsers(UserDao userDao, RoleDao roleDao) {
+        Role role = roleDao.findByName("Admin");
+        if(role == null) throw new EntityNotFoundException("Role Not Found");
+        List<User> users = userDao.findAll();
+        users.forEach(user -> {
+            user.assignRoleToUser(role);
+            userDao.save(user);
+        });
     }
 
 }
