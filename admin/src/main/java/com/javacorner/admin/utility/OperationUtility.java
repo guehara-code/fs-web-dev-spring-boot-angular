@@ -1,7 +1,9 @@
 package com.javacorner.admin.utility;
 
+import com.javacorner.admin.dao.InstructorDao;
 import com.javacorner.admin.dao.RoleDao;
 import com.javacorner.admin.dao.UserDao;
+import com.javacorner.admin.entity.Instructor;
 import com.javacorner.admin.entity.Role;
 import com.javacorner.admin.entity.User;
 import jakarta.persistence.EntityNotFoundException;
@@ -85,4 +87,43 @@ public class OperationUtility {
         });
     }
 
+    public static void instructorsOperations(UserDao userDao, InstructorDao instructorDao, RoleDao roleDao) {
+        createInstructors(userDao, instructorDao, roleDao);
+        updateInstructor(instructorDao);
+        removeInstructor(instructorDao);
+        fetchInstructors(instructorDao);
+    }
+
+    private static void createInstructors(UserDao userDao, InstructorDao instructorDao, RoleDao roleDao) {
+        Role role = roleDao.findByName("Instructor");
+        if(role == null) throw new EntityNotFoundException("Role Not Found");
+
+        User user1 = new User("instructorUser1@gnail.com", "pass1");
+        userDao.save(user1);
+        user1.assignRoleToUser(role);
+        Instructor instructor1 = new Instructor("instructor1FN", "instructor1LN", "Experienced Instructor", user1);
+        instructorDao.save(instructor1);
+
+        User user2 = new User("instructorUser2@gnail.com", "pass2");
+        userDao.save(user2);
+        user2.assignRoleToUser(role);
+        Instructor instructor2 = new Instructor("instructor2FN", "instructor2LN", "Senior Instructor", user2);
+        instructorDao.save(instructor2);
+
+    }
+
+    private static void updateInstructor(InstructorDao instructorDao) {
+        Instructor instructor = instructorDao.findById(1L).orElseThrow(() -> new EntityNotFoundException("Instructor Not Found"));
+        instructor.setSummary("Certified Instructor");
+        instructorDao.save(instructor);
+
+    }
+
+    private static void removeInstructor(InstructorDao instructorDao) {
+        instructorDao.deleteById(2L);
+    }
+
+    private static void fetchInstructors(InstructorDao instructorDao) {
+        instructorDao.findAll().forEach(instructor -> System.out.println(instructor.toString()));
+    }
 }
