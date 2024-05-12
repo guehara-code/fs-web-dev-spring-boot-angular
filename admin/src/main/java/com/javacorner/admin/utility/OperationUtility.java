@@ -2,9 +2,11 @@ package com.javacorner.admin.utility;
 
 import com.javacorner.admin.dao.InstructorDao;
 import com.javacorner.admin.dao.RoleDao;
+import com.javacorner.admin.dao.StudentDao;
 import com.javacorner.admin.dao.UserDao;
 import com.javacorner.admin.entity.Instructor;
 import com.javacorner.admin.entity.Role;
+import com.javacorner.admin.entity.Student;
 import com.javacorner.admin.entity.User;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -125,5 +127,43 @@ public class OperationUtility {
 
     private static void fetchInstructors(InstructorDao instructorDao) {
         instructorDao.findAll().forEach(instructor -> System.out.println(instructor.toString()));
+    }
+
+    public static void studentsOperations(UserDao userDao, StudentDao studentDao, RoleDao roleDao) {
+        createStudents(userDao, studentDao, roleDao);
+        updateStudent(studentDao);
+        removeStudent(studentDao);
+        fetchStudents(studentDao);
+    }
+
+    private static void createStudents(UserDao userDao, StudentDao studentDao, RoleDao roleDao) {
+        Role role = roleDao.findByName("Student");
+        if(role == null) throw new EntityNotFoundException("Role Not Found");
+
+        User user1 = new User("stdUser1@gmail.com", "pass1");
+        userDao.save(user1);
+        user1.assignRoleToUser(role);
+        Student student1 = new Student("student1FN", "student1LN", "master", user1);
+        studentDao.save(student1);
+
+        User user2 = new User("stdUser2@gmail.com", "pass2");
+        userDao.save(user2);
+        user2.assignRoleToUser(role);
+        Student student2 = new Student("student2FN", "student2LN", "Phd", user2);
+        studentDao.save(student2);
+    }
+    private static void updateStudent(StudentDao studentDao) {
+        Student student = studentDao.findById(2L).orElseThrow(() -> new EntityNotFoundException("Student Not Found"));
+        student.setFirstName("updatedStdFN");
+        student.setLastName("updatedStdLN");
+        studentDao.save(student);
+    }
+
+    private static void removeStudent(StudentDao studentDao) {
+        studentDao.deleteById(1L);
+    }
+
+    private static void fetchStudents(StudentDao studentDao) {
+        studentDao.findAll().forEach(student -> System.out.println(student.toString()));
     }
 }
