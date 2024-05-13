@@ -1,13 +1,8 @@
 package com.javacorner.admin.utility;
 
-import com.javacorner.admin.dao.InstructorDao;
-import com.javacorner.admin.dao.RoleDao;
-import com.javacorner.admin.dao.StudentDao;
-import com.javacorner.admin.dao.UserDao;
-import com.javacorner.admin.entity.Instructor;
-import com.javacorner.admin.entity.Role;
-import com.javacorner.admin.entity.Student;
-import com.javacorner.admin.entity.User;
+import com.javacorner.admin.dao.*;
+import com.javacorner.admin.entity.*;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
@@ -166,4 +161,31 @@ public class OperationUtility {
     private static void fetchStudents(StudentDao studentDao) {
         studentDao.findAll().forEach(student -> System.out.println(student.toString()));
     }
+
+    public static void cursesOperations(CourseDao courseDao, InstructorDao instructorDao, StudentDao studentDao) {
+        createCourses(courseDao, instructorDao);
+        updateCourse(courseDao);
+        deleteCourse(courseDao);
+    }
+
+    private static void createCourses(CourseDao courseDao, InstructorDao instructorDao) {
+        Instructor instructor = instructorDao.findById(1L).orElseThrow(() -> new EntityNotFoundException("Instructor Not Found"));
+
+        Course course1 = new Course("Hibernate", "5 Hourse", "Instroduction to Hibernate", instructor);
+        courseDao.save(course1);
+
+        Course course2 = new Course("Spring Data Jpa", "10 Hours", "Master Spring Data JPA", instructor);
+        courseDao.save(course2);
+    }
+
+    private static void updateCourse(CourseDao courseDao) {
+        Course course = courseDao.findById(1L).orElseThrow(() -> new EntityNotFoundException("Course Not Found"));
+        course.setCourseDuration("20 Hours");
+        courseDao.save(course);
+    }
+
+    private static void deleteCourse(CourseDao courseDao) {
+        courseDao.deleteById(2L);
+    }
+
 }
