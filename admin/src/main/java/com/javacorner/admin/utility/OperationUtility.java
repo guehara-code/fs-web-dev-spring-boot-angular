@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class OperationUtility {
 
@@ -166,6 +167,9 @@ public class OperationUtility {
         createCourses(courseDao, instructorDao);
         updateCourse(courseDao);
         deleteCourse(courseDao);
+        fetchCourses(courseDao);
+        assignStudentsToCourse(courseDao, studentDao);
+        fetchCoursesForStudent(courseDao);
     }
 
     private static void createCourses(CourseDao courseDao, InstructorDao instructorDao) {
@@ -186,6 +190,24 @@ public class OperationUtility {
 
     private static void deleteCourse(CourseDao courseDao) {
         courseDao.deleteById(2L);
+    }
+
+    private static void fetchCourses(CourseDao courseDao) {
+        courseDao.findAll().forEach(course -> System.out.println(course.toString()));
+    }
+
+    private static void assignStudentsToCourse(CourseDao courseDao, StudentDao studentDao) {
+        Optional<Student> student1 = studentDao.findById(1L);
+        Optional<Student> student2 = studentDao.findById(2L);
+        Course course = courseDao.findById(1L).orElseThrow(() -> new EntityNotFoundException("Course Not Found"));
+
+        student1.ifPresent(course::assignStudentToCourse);
+        student2.ifPresent(course::assignStudentToCourse);
+        courseDao.save(course);
+    }
+
+    private static void fetchCoursesForStudent(CourseDao courseDao) {
+        courseDao.getCourseByStudentId(1L).forEach(course -> System.out.println(course.toString()));
     }
 
 }
