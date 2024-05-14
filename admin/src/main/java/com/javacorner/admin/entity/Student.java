@@ -25,6 +25,7 @@ public class Student {
     private String level;
 
     @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
     private Set<Course> courses = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.REMOVE)

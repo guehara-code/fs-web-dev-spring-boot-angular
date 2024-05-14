@@ -7,31 +7,36 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "roles")
+@Table(name="roles")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id", nullable = false)
+    @Column(name ="role_id", nullable = false)
     private Long roleId;
     @Basic
     @Column(name = "name", nullable = false, length = 45, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return Objects.equals(roleId, role.roleId) && Objects.equals(name, role.name);
+        return roleId.equals(role.roleId) && Objects.equals(name, role.name);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(roleId, name);
+    public String toString() {
+        return "Role{" +
+                "roleId=" + roleId +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     public Role() {
@@ -42,11 +47,8 @@ public class Role {
     }
 
     @Override
-    public String toString() {
-        return "Role{" +
-                "roleId=" + roleId +
-                ", name='" + name + '\'' +
-                '}';
+    public int hashCode() {
+        return Objects.hash(roleId, name);
     }
 
     public Long getRoleId() {

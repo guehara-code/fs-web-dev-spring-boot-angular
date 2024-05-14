@@ -1,7 +1,8 @@
 package com.javacorner.admin.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -23,8 +24,8 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
-    joinColumns = {@JoinColumn(name = "user_id")},
-    inverseJoinColumns = {@JoinColumn(name = "role_id")})
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(mappedBy = "user")
@@ -38,7 +39,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userId, user.userId) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return userId.equals(user.userId) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
     }
 
     @Override
@@ -63,8 +64,11 @@ public class User {
     }
 
     public void assignRoleToUser(Role role) {
+        System.out.println("chegou6");
         this.roles.add(role);
+        System.out.println("chegou7");
         role.getUsers().add(this);
+        System.out.println("chegou9");
     }
 
     public void removeRoleFromUser(Role role) {

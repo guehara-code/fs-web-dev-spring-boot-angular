@@ -11,19 +11,12 @@ import java.util.Optional;
 public class OperationUtility {
 
     public static void usersOperations(UserDao userDao) {
-//        createUsers(userDao);
+        createUsers(userDao);
 //        updateUser(userDao);
 //        deleteUser(userDao);
-        fetchUsers(userDao);
+//        fetchUsers(userDao);
     }
 
-    public static void rolesOperations(RoleDao roleDao) {
-        createRoles(roleDao);
-        updateRole(roleDao);
-        deleteRole(roleDao);
-        fetchRole(roleDao);
-
-    }
 
     private static void createUsers(UserDao userDao) {
         User user1 = new User("user@gmail.com", "pass1");
@@ -52,6 +45,14 @@ public class OperationUtility {
         userDao.findAll().forEach(user -> System.out.println(user.toString()));
     }
 
+    public static void rolesOperations(RoleDao roleDao) {
+        createRoles(roleDao);
+//        updateRole(roleDao);
+//        deleteRole(roleDao);
+//        fetchRole(roleDao);
+
+    }
+
     private static void createRoles(RoleDao roleDao) {
         Role role1 = new Role("Admin");
         roleDao.save(role1);
@@ -76,11 +77,19 @@ public class OperationUtility {
     }
 
     public static void assignRolesToUsers(UserDao userDao, RoleDao roleDao) {
+        System.out.println("chegou");
         Role role = roleDao.findByName("Admin");
-        if(role == null) throw new EntityNotFoundException("Role Not Found");
+        System.out.println("chegou2");
+        if (role == null) throw new EntityNotFoundException("Role Not Found");
+        System.out.println("chegou3");
         List<User> users = userDao.findAll();
+        System.out.println("chegou4");
         users.forEach(user -> {
+            System.out.println(role);
+            System.out.println(user);
+            System.out.println(user.getRoles());
             user.assignRoleToUser(role);
+            System.out.println("chegou5");
             userDao.save(user);
         });
     }
