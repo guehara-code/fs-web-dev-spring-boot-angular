@@ -11,9 +11,9 @@ import java.util.Optional;
 public class OperationUtility {
 
     public static void usersOperations(UserDao userDao) {
-        createUsers(userDao);
-        updateUser(userDao);
-        deleteUser(userDao);
+//        createUsers(userDao);
+//        updateUser(userDao);
+//        deleteUser(userDao);
         fetchUsers(userDao);
     }
 
