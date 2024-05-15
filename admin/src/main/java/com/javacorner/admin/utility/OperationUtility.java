@@ -87,10 +87,10 @@ public class OperationUtility {
     }
 
     public static void instructorsOperations(UserDao userDao, InstructorDao instructorDao, RoleDao roleDao) {
-//        createInstructors(userDao, instructorDao, roleDao);
+        createInstructors(userDao, instructorDao, roleDao);
 //        updateInstructor(instructorDao);
 //        removeInstructor(instructorDao);
-        fetchInstructors(instructorDao);
+//        fetchInstructors(instructorDao);
     }
 
     private static void createInstructors(UserDao userDao, InstructorDao instructorDao, RoleDao roleDao) {
@@ -127,10 +127,10 @@ public class OperationUtility {
     }
 
     public static void studentsOperations(UserDao userDao, StudentDao studentDao, RoleDao roleDao) {
-//        createStudents(userDao, studentDao, roleDao);
+        createStudents(userDao, studentDao, roleDao);
 //        updateStudent(studentDao);
 //        removeStudent(studentDao);
-        fetchStudents(studentDao);
+//        fetchStudents(studentDao);
     }
 
     private static void createStudents(UserDao userDao, StudentDao studentDao, RoleDao roleDao) {
