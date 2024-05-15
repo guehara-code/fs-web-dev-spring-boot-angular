@@ -164,12 +164,12 @@ public class OperationUtility {
         studentDao.findAll().forEach(student -> System.out.println(student.toString()));
     }
 
-    public static void cursesOperations(CourseDao courseDao, InstructorDao instructorDao, StudentDao studentDao) {
-        createCourses(courseDao, instructorDao);
-        updateCourse(courseDao);
-        deleteCourse(courseDao);
-        fetchCourses(courseDao);
-        assignStudentsToCourse(courseDao, studentDao);
+    public static void coursesOperations(CourseDao courseDao, InstructorDao instructorDao, StudentDao studentDao) {
+//        createCourses(courseDao, instructorDao);
+//        updateCourse(courseDao);
+//        deleteCourse(courseDao);
+//        fetchCourses(courseDao);
+//        assignStudentsToCourse(courseDao, studentDao);
         fetchCoursesForStudent(courseDao);
     }
 

@@ -31,11 +31,12 @@ public class AdminApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		OperationUtility.usersOperations(userDao);
-		OperationUtility.rolesOperations(roleDao);
-		OperationUtility.assignRolesToUsers(userDao, roleDao);
-		OperationUtility.instructorsOperations(userDao, instructorDao, roleDao);
-		OperationUtility.studentsOperations(userDao, studentDao, roleDao);
+//		OperationUtility.usersOperations(userDao);
+//		OperationUtility.rolesOperations(roleDao);
+//		OperationUtility.assignRolesToUsers(userDao, roleDao);
+//		OperationUtility.instructorsOperations(userDao, instructorDao, roleDao);
+//		OperationUtility.studentsOperations(userDao, studentDao, roleDao);
+		OperationUtility.coursesOperations(courseDao, instructorDao, studentDao);
 	}
 
 }
