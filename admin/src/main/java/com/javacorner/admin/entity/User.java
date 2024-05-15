@@ -64,11 +64,8 @@ public class User {
     }
 
     public void assignRoleToUser(Role role) {
-        System.out.println("chegou6");
         this.roles.add(role);
-        System.out.println("chegou7");
         role.getUsers().add(this);
-        System.out.println("chegou9");
     }
 
     public void removeRoleFromUser(Role role) {

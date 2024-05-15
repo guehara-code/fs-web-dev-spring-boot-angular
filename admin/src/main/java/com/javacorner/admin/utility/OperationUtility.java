@@ -77,19 +77,11 @@ public class OperationUtility {
     }
 
     public static void assignRolesToUsers(UserDao userDao, RoleDao roleDao) {
-        System.out.println("chegou");
         Role role = roleDao.findByName("Admin");
-        System.out.println("chegou2");
         if (role == null) throw new EntityNotFoundException("Role Not Found");
-        System.out.println("chegou3");
         List<User> users = userDao.findAll();
-        System.out.println("chegou4");
         users.forEach(user -> {
-            System.out.println(role);
-            System.out.println(user);
-            System.out.println(user.getRoles());
             user.assignRoleToUser(role);
-            System.out.println("chegou5");
             userDao.save(user);
         });
     }
