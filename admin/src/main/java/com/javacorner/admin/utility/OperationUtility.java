@@ -87,9 +87,9 @@ public class OperationUtility {
     }
 
     public static void instructorsOperations(UserDao userDao, InstructorDao instructorDao, RoleDao roleDao) {
-        createInstructors(userDao, instructorDao, roleDao);
-        updateInstructor(instructorDao);
-        removeInstructor(instructorDao);
+//        createInstructors(userDao, instructorDao, roleDao);
+//        updateInstructor(instructorDao);
+//        removeInstructor(instructorDao);
         fetchInstructors(instructorDao);
     }
 
@@ -98,14 +98,14 @@ public class OperationUtility {
         if(role == null) throw new EntityNotFoundException("Role Not Found");
 
         User user1 = new User("instructorUser1@gnail.com", "pass1");
-        userDao.save(user1);
         user1.assignRoleToUser(role);
+        userDao.save(user1);
         Instructor instructor1 = new Instructor("instructor1FN", "instructor1LN", "Experienced Instructor", user1);
         instructorDao.save(instructor1);
 
         User user2 = new User("instructorUser2@gnail.com", "pass2");
-        userDao.save(user2);
         user2.assignRoleToUser(role);
+        userDao.save(user2);
         Instructor instructor2 = new Instructor("instructor2FN", "instructor2LN", "Senior Instructor", user2);
         instructorDao.save(instructor2);
 
