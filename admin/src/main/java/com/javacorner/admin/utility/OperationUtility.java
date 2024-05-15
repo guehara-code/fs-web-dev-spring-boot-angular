@@ -127,9 +127,9 @@ public class OperationUtility {
     }
 
     public static void studentsOperations(UserDao userDao, StudentDao studentDao, RoleDao roleDao) {
-        createStudents(userDao, studentDao, roleDao);
-        updateStudent(studentDao);
-        removeStudent(studentDao);
+//        createStudents(userDao, studentDao, roleDao);
+//        updateStudent(studentDao);
+//        removeStudent(studentDao);
         fetchStudents(studentDao);
     }
 
@@ -138,14 +138,14 @@ public class OperationUtility {
         if(role == null) throw new EntityNotFoundException("Role Not Found");
 
         User user1 = new User("stdUser1@gmail.com", "pass1");
-        userDao.save(user1);
         user1.assignRoleToUser(role);
+        userDao.save(user1);
         Student student1 = new Student("student1FN", "student1LN", "master", user1);
         studentDao.save(student1);
 
         User user2 = new User("stdUser2@gmail.com", "pass2");
-        userDao.save(user2);
         user2.assignRoleToUser(role);
+        userDao.save(user2);
         Student student2 = new Student("student2FN", "student2LN", "Phd", user2);
         studentDao.save(student2);
     }
@@ -157,7 +157,7 @@ public class OperationUtility {
     }
 
     private static void removeStudent(StudentDao studentDao) {
-        studentDao.deleteById(1L);
+        studentDao.deleteById(2L);
     }
 
     private static void fetchStudents(StudentDao studentDao) {

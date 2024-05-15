@@ -34,7 +34,8 @@ public class AdminApplication implements CommandLineRunner {
 //		OperationUtility.usersOperations(userDao);
 //		OperationUtility.rolesOperations(roleDao);
 //		OperationUtility.assignRolesToUsers(userDao, roleDao);
-		OperationUtility.instructorsOperations(userDao, instructorDao, roleDao);
+//		OperationUtility.instructorsOperations(userDao, instructorDao, roleDao);
+		OperationUtility.studentsOperations(userDao, studentDao, roleDao);
 	}
 
 }
