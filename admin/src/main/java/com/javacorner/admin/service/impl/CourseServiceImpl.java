@@ -1,20 +1,26 @@
 package com.javacorner.admin.service.impl;
 
 import com.javacorner.admin.dao.InstructorDao;
+import com.javacorner.admin.dao.StudentDao;
 import com.javacorner.admin.dto.CourseDTO;
 import com.javacorner.admin.entity.Course;
 import com.javacorner.admin.entity.Instructor;
+import com.javacorner.admin.entity.Student;
 import com.javacorner.admin.mapper.CourseMapper;
 import com.javacorner.admin.mapper.InstructorMapper;
 import com.javacorner.admin.service.CourseService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import com.javacorner.admin.dao.CourseDao;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
+@Service
+@Transactional
 public class CourseServiceImpl implements CourseService {
 
     private CourseDao courseDao;
@@ -23,10 +29,13 @@ public class CourseServiceImpl implements CourseService {
 
     private InstructorDao instructorDao;
 
-    public CourseServiceImpl(CourseDao courseDao, CourseMapper courseMapper, InstructorDao instructorDao) {
+    private StudentDao studentDao;
+
+    public CourseServiceImpl(CourseDao courseDao, CourseMapper courseMapper, InstructorDao instructorDao, StudentDao studentDao) {
         this.courseDao = courseDao;
         this.courseMapper = courseMapper;
         this.instructorDao = instructorDao;
+        this.studentDao = studentDao;
     }
 
 
@@ -63,31 +72,45 @@ public class CourseServiceImpl implements CourseService {
 
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Course> coursePage = courseDao.findCoursesByCourseNameContains(keyword, pageRequest);
-        return new PageImpl<>(coursePage.getContent().stream().map(course -> courseMapper.fromCourse(course)).collect(Collectors.toList()));
+        return new PageImpl<>(coursePage.getContent().stream().map(course -> courseMapper.fromCourse(course)).collect(Collectors.toList()), pageRequest, coursePage.getTotalElements());
     }
 
     @Override
     public void assignStudentToCourse(Long courseId, Long studentId) {
 
+        Student student = studentDao.findById(studentId).orElseThrow(() -> new EntityNotFoundException("Student with ID " + studentId + " Not Found"));
+        Course course = loadCourseById(courseId);
+        course.assignStudentToCourse(student);
     }
 
     @Override
     public Page<CourseDTO> fetchCoursesForStudent(Long studentId, int page, int size) {
-        return null;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Course> studentCoursesPage = courseDao.getCourseByStudentId(studentId, pageRequest);
+        return new PageImpl<>(studentCoursesPage.getContent().stream().map(course -> courseMapper.fromCourse(course)).collect(Collectors.toList()), pageRequest, studentCoursesPage.getTotalElements());
+
     }
 
     @Override
     public Page<CourseDTO> fetchNonEnrolledInCoursesForStudent(Long studentId, int page, int size) {
-        return null;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Course> nonEnrolledInCoursesPage = courseDao.getNonEnrolledInCoursesByStudentId(studentId, pageRequest);
+        return new PageImpl<>(nonEnrolledInCoursesPage.getContent().stream().map(course -> courseMapper.fromCourse(course)).collect(Collectors.toList()), pageRequest, nonEnrolledInCoursesPage.getTotalElements());
+
     }
 
     @Override
     public void removeCourse(Long courseId) {
 
+        courseDao.deleteById(courseId);
     }
 
     @Override
     public Page<CourseDTO> fetchCoursesForInstructor(Long instructorId, int page, int size) {
-        return null;
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Course> instructorCoursesPage = courseDao.getCoursesByInstructorId(instructorId, pageRequest);
+        return new PageImpl<>(instructorCoursesPage.getContent().stream().map(course -> courseMapper.fromCourse(course)).collect(Collectors.toList()), pageRequest, instructorCoursesPage.getTotalElements());
+
     }
 }
