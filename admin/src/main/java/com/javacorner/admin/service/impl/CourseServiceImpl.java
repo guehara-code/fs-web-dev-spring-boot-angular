@@ -10,6 +10,10 @@ import com.javacorner.admin.service.CourseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import com.javacorner.admin.dao.CourseDao;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.stream.Collectors;
 
 public class CourseServiceImpl implements CourseService {
 
@@ -44,12 +48,22 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO updateCourse(CourseDTO courseDTO) {
-        return null;
+
+        Course loadedCourse = loadCourseById(courseDTO.getCourseId());
+        Instructor instructor = instructorDao.findById(courseDTO.getInstructor().getInstructorId()).orElseThrow(() -> new EntityNotFoundException("Instructor with ID " + courseDTO.getInstructor().getInstructorId() + " Not Found"));
+        Course course = courseMapper.fromCourseDTO(courseDTO);
+        course.setInstructor(instructor);
+        course.setStudents(loadedCourse.getStudents());
+        Course updatedCourse = courseDao.save(course);
+        return courseMapper.fromCourse(updatedCourse);
     }
 
     @Override
     public Page<CourseDTO> findCoursesByCourseName(String keyword, int page, int size) {
-        return null;
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Course> coursePage = courseDao.findCoursesByCourseNameContains(keyword, pageRequest);
+        return new PageImpl<>(coursePage.getContent().stream().map(course -> courseMapper.fromCourse(course)).collect(Collectors.toList()));
     }
 
     @Override
