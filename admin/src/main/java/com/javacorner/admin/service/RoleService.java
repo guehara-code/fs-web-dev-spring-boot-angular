@@ -1,4 +1,4 @@
-package com.javacorner.admin.service.impl;
+package com.javacorner.admin.service;
 
 import com.javacorner.admin.entity.Role;
 
