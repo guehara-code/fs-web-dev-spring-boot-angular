@@ -20,5 +20,5 @@ public interface InstructorService {
 
     List<InstructorDTO> fetchInstructors();
 
-    void removeInstructor(Long instructor);
+    void removeInstructor(Long instructorId);
 }
