@@ -3,11 +3,10 @@ package com.javacorner.admin.runner;
 import com.javacorner.admin.dao.UserDao;
 import com.javacorner.admin.dto.CourseDTO;
 import com.javacorner.admin.dto.InstructorDTO;
+import com.javacorner.admin.dto.StudentDTO;
 import com.javacorner.admin.dto.UserDTO;
-import com.javacorner.admin.service.CourseService;
-import com.javacorner.admin.service.InstructorService;
-import com.javacorner.admin.service.RoleService;
-import com.javacorner.admin.service.UserService;
+import com.javacorner.admin.entity.User;
+import com.javacorner.admin.service.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -30,6 +29,10 @@ public class MyRunner implements CommandLineRunner {
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    private StudentService studentService;
+
+
     @Override
     public void run(String... args) throws Exception {
         
@@ -37,6 +40,8 @@ public class MyRunner implements CommandLineRunner {
         createAdmin();
         createInstructors();
         createCourses();
+        StudentDTO student = createStudent();
+        assignCourseToStudent(student);
     }
 
     private void createRoles() {
@@ -76,5 +81,23 @@ public class MyRunner implements CommandLineRunner {
             courseDTO.setInstructor(instructorDTO);
             courseService.createCourse(courseDTO);
         }
+    }
+
+    private StudentDTO createStudent() {
+
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setFirstName("studentFN");
+        studentDTO.setLastName("studentLN");
+        studentDTO.setLevel("intermediate");
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("student@gmail.com");
+        userDTO.setPassword("1234");
+        studentDTO.setUser(userDTO);
+        return studentService.createStudent(studentDTO);
+    }
+
+    private void assignCourseToStudent(StudentDTO student) {
+
+        courseService.assignStudentToCourse(1L, student.getStudentId());
     }
 }
