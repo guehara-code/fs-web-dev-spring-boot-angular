@@ -42,7 +42,7 @@ public class CourseRestController {
         return courseService.updateCourse(courseDTO);
     }
 
-    @PutMapping("/{courseId}/enroll/students/{studentId}")
+    @PostMapping("/{courseId}/enroll/students/{studentId}")
     public void enrollStudentInCourse(@PathVariable Long courseId, @PathVariable Long studentId) {
 
         courseService.assignStudentToCourse(courseId, studentId);
