@@ -28,7 +28,7 @@ public class InstructorRestController {
 
 
     @GetMapping
-    public Page<InstructorDTO> searchInstructors(@RequestParam(name = "keyword") String keyword,
+    public Page<InstructorDTO> searchInstructors(@RequestParam(name = "keyword", defaultValue = "") String keyword,
                                                  @RequestParam(name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "size", defaultValue = "5") int size) {
 
