@@ -42,6 +42,22 @@ public class MyRunner implements CommandLineRunner {
         createCourses();
         StudentDTO student = createStudent();
         assignCourseToStudent(student);
+        createStudents();
+    }
+
+    private void createStudents() {
+
+        for(int i=1; i<10; i++) {
+            StudentDTO studentDTO = new StudentDTO();
+            studentDTO.setFirstName("studentFN" + i);
+            studentDTO.setLastName("studentLN" + i);
+            studentDTO.setLevel("intermediate" + i);
+            UserDTO userDTO = new UserDTO();
+            userDTO.setEmail("student" + i + "@gmail.com");
+            userDTO.setPassword("1234");
+            studentDTO.setUser(userDTO);
+            studentService.createStudent(studentDTO);
+        }
     }
 
     private void createRoles() {

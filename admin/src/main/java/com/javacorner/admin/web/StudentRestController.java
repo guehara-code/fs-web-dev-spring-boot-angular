@@ -51,7 +51,7 @@ public class StudentRestController {
         return studentService.updateStudent(studentDTO);
     }
 
-    @GetMapping("{/studentId}/courses")
+    @GetMapping("/{studentId}/courses")
     public Page<CourseDTO> coursesByStudentId(@PathVariable Long studentId,
                                               @RequestParam(name = "page", defaultValue = "0") int page,
                                               @RequestParam(name = "size", defaultValue = "5") int size) {
