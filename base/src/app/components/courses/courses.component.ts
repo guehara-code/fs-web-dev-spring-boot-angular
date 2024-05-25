@@ -27,5 +27,8 @@ export class CoursesComponent implements OnInit {
     console.log("Hello world")
   }
 
+  handleSearchCourses() {
+    console.log(this.searchFormGroup.value.keyword)
+  }
 
 }
