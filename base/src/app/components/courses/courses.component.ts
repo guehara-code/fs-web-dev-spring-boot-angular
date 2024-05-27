@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CoursesService } from 'src/app/services/courses.service';
+import { Observable, catchError, throwError } from 'rxjs';
+import { PageResponse } from 'src/app/model/page.response.model';
+import { Course } from '../../model/course.model';
 
 @Component({
   selector: 'app-courses',
@@ -11,14 +15,20 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class CoursesComponent implements OnInit {
 
   searchFormGroup!: FormGroup;
+  pageCourses$!: Observable<PageResponse<Course>>;
+  currentPage: number = 0;
+  pageSize: number = 10;
+  errorMessage!: string;
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder) {
+  constructor(private modalService: NgbModal, 
+    private fb: FormBuilder, private courseService: CoursesService) {
   }
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
       keyword: this.fb.control('')
     })
+    this.handleSearchCourses()
   }
 
 
@@ -28,7 +38,14 @@ export class CoursesComponent implements OnInit {
   }
 
   handleSearchCourses() {
-    console.log(this.searchFormGroup.value.keyword)
+    // console.log(this.searchFormGroup.value.keyword)
+    let keyword = this.searchFormGroup.value.keyword;
+    this.pageCourses$ = this.courseService.searchCourses(keyword, this.currentPage, this.pageSize).pipe(
+      catchError(err => {
+        this.errorMessage = err.message;
+        return throwError(err);
+      })
+    )
   }
 
 }

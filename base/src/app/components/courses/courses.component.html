@@ -11,6 +11,7 @@
       </div>
     </div>
     <div class="box-content">
+      <ng-container *ngIf="pageCourses$ | async as listCourses; else failureOrLoading">
       <div *ngIf="searchFormGroup" class="mb-2">
         <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCourses()">
           <div class="input-group w-25">
@@ -30,6 +31,13 @@
         </tr>
         </thead>
         <tbody>
+          <tr *ngFor="let c of listCourses.content">
+            <td>{{c.courseId}}</td>
+            <td>{{c.courseName}}</td>
+            <td>{{c.courseDuration}}</td>
+            <td>{{c.courseDescription}}</td>
+            <td>{{c.instructor.firstName}} {{c.instructor.lastName}}</td>
+          </tr>
         </tbody>
         <tfoot>
         <tr>
@@ -41,6 +49,19 @@
         </tr>
         </tfoot>
       </table>
+    </ng-container>
+    <ng-template #failureOrLoading>
+      <ng-container *ngIf="errorMessage"; else loading>
+        <div class="text-danger">
+          {{errorMessage}}
+        </div>
+      </ng-container>
+      <ng-template #loading>
+        <div class="loader shadow-sm text-muted">
+          <span><i class="fa-solid fa-rotate fa-spin"></i></span> &nbsp; <span>Processing...</span>
+        </div>
+      </ng-template>
+    </ng-template>
     </div>
   </div>
 </div>
