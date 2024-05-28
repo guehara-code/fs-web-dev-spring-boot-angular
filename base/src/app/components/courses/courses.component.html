@@ -49,6 +49,12 @@
         </tr>
         </tfoot>
       </table>
+      <ul class="nav nav-pills">
+        <li *ngFor="let item of [].constructor(listCourses.totalPages); let page=index">
+          <a [ngClass]="page==currentPage? 'btn-info':'btn-outline-info'" (click)="gotoPage(page)"
+            class="btn mb-1 ms-1 mt-1">{{page}}</a>
+        </li>
+      </ul>
     </ng-container>
     <ng-template #failureOrLoading>
       <ng-container *ngIf="errorMessage"; else loading>

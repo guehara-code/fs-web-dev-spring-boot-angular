@@ -20,7 +20,8 @@ public class CourseRestController {
     public Page<CourseDTO> searchCourses(@RequestParam(name = "keyword", defaultValue = "") String keyword,
                                          @RequestParam(name = "page", defaultValue = "0") int page,
                                          @RequestParam(name = "size", defaultValue = "5") int size) {
-
+        System.out.println("page=" + page);
+        System.out.println("size="+ size);
         return courseService.findCoursesByCourseName(keyword, page, size);
     }
 

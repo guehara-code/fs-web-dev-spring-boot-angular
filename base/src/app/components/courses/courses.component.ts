@@ -38,7 +38,7 @@ export class CoursesComponent implements OnInit {
   }
 
   handleSearchCourses() {
-    // console.log(this.searchFormGroup.value.keyword)
+  
     let keyword = this.searchFormGroup.value.keyword;
     this.pageCourses$ = this.courseService.searchCourses(keyword, this.currentPage, this.pageSize).pipe(
       catchError(err => {
@@ -46,6 +46,12 @@ export class CoursesComponent implements OnInit {
         return throwError(err);
       })
     )
+    
+  }
+
+  gotoPage(page: number) {
+    this.currentPage = page;
+    this.handleSearchCourses();
   }
 
 }

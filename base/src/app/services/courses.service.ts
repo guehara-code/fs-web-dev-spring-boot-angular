@@ -15,7 +15,11 @@ export class CoursesService {
   }
 
   public searchCourses(keyword:string, currentPage:number, pageSize:number) : Observable<PageResponse<Course>> {
+    
     return this.http.get<PageResponse<Course>>(environment.backendHost + "/courses?keyword=" + 
-                          keyword + "&page" + currentPage + "&size" + pageSize);
+                          keyword + "&page=" + currentPage + "&size=" + pageSize);
+                          
+  
+    
   }
 }
