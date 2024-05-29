@@ -22,4 +22,9 @@ export class CoursesService {
   
     
   }
+
+  public deleteCourse(courseId: number) {
+
+    return this.http.delete(environment.backendHost + "/courses/" + courseId);
+  }
 }

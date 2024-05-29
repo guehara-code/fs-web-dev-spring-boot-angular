@@ -56,7 +56,16 @@ export class CoursesComponent implements OnInit {
 
   handleDeleteCourse(c: Course) {
     let conf = confirm("Are you sure?")
-    if (!conf) return;    
+    if (!conf) return;  
+    this.courseService.deleteCourse(c.courseId).subscribe({
+      next: () => {
+        this.handleSearchCourses();
+      },
+      error: err => {
+        alert(err.message)
+        console.log(err);
+      }
+    })  
   }
 
 }
