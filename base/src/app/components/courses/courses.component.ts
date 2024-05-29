@@ -17,7 +17,7 @@ export class CoursesComponent implements OnInit {
   searchFormGroup!: FormGroup;
   pageCourses$!: Observable<PageResponse<Course>>;
   currentPage: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 5;
   errorMessage!: string;
 
   constructor(private modalService: NgbModal, 
@@ -52,6 +52,11 @@ export class CoursesComponent implements OnInit {
   gotoPage(page: number) {
     this.currentPage = page;
     this.handleSearchCourses();
+  }
+
+  handleDeleteCourse(c: Course) {
+    let conf = confirm("Are you sure?")
+    if (!conf) return;    
   }
 
 }

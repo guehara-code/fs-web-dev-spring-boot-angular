@@ -37,6 +37,11 @@
             <td>{{c.courseDuration}}</td>
             <td>{{c.courseDescription}}</td>
             <td>{{c.instructor.firstName}} {{c.instructor.lastName}}</td>
+            <td>
+              <button (click)="handleDeleteCourse(c)" class="btn btn-danger">
+                <i class="bi-trash"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
         <tfoot>
