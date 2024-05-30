@@ -24,6 +24,7 @@ export class CoursesComponent implements OnInit {
   pageSize: number = 5;
   errorMessage!: string;
   errorInstructorMessage!: string;
+  submitted: boolean = false;
 
   constructor(private modalService: NgbModal, 
     private fb: FormBuilder, private courseService: CoursesService,
@@ -45,9 +46,10 @@ export class CoursesComponent implements OnInit {
 
 
   getModal(content: any) {
+    this.submitted = false;
     this.fetchInstructors();
     this.modalService.open(content, {size: 'xl'})
-    console.log("Hello world")
+  
   }
 
   handleSearchCourses() {
@@ -94,8 +96,9 @@ export class CoursesComponent implements OnInit {
 
   }
 
-  onSaveModal(modal: any) {
-    
+  onSaveCourse(modal: any) {
+    this.submitted = true;
+    if(this.courseFormGroup.invalid) return;
   }
 
 }

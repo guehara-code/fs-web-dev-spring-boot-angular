@@ -92,7 +92,12 @@
       <div class="col-md-4">
         <div class="form-group">
           <label class="text-muted">Course Name</label>
-          <input type="text" class="form-control form-font rounded-0 mt-1 mb-3" formControlName="courseName">
+          <input type="text" class="form-control form-font rounded-0 mt-1 mb-3"
+            [ngClass]="{'is-invalid': submitted && courseFormGroup.controls['courseName'].errors}"
+            formControlName="courseName">
+          <div *ngIf="submitted && courseFormGroup.controls['courseName'].errors" class="invalid-feedback">
+            <div *ngIf="courseFormGroup.controls['courseName'].errors['required']">Course Name is Required</div>
+          </div>
         </div>
       </div>
 
@@ -129,7 +134,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-sm btn-secondary" (click)="onCloseModal(modal)">Close</button>
-    <button type="button" class="btn btn-sm btn-primary" (click)="onSaveModal(modal)">Save changes</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="onSaveCourse(modal)">Save changes</button>
   </div>
 </form>
 </ng-container>
