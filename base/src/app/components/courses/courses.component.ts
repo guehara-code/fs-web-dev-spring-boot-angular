@@ -93,12 +93,25 @@ export class CoursesComponent implements OnInit {
   }
 
   onCloseModal(modal: any) {
-
+    modal.close();
+    this.courseFormGroup.reset();
   }
 
   onSaveCourse(modal: any) {
     this.submitted = true;
     if(this.courseFormGroup.invalid) return;
+    // console.log(this.courseFormGroup.value);
+    this.courseService.saveCourse(this.courseFormGroup.value).subscribe({
+      next: () => {
+        alert("Success Saving Course");
+        this.handleSearchCourses();
+        this.courseFormGroup.reset();
+        this.submitted = false;
+        modal.close();
+      }, error: err => {
+        alert(err.message);
+      }
+    })
   }
 
 }
