@@ -105,7 +105,12 @@
       <div class="col-md-4">
         <div class="form-group">
           <label class="text-muted">Course Duration</label>
-          <input type="text" class="form-control form-font rounded-0 mt-1 mb-3" formControlName="courseDuration">
+          <input type="text" class="form-control form-font rounded-0 mt-1 mb-3"
+            [ngClass]="{'is-invalid': submitted && courseFormGroup.controls['courseName'].errors}"
+            formControlName="courseDuration">
+          <div *ngIf="submitted && courseFormGroup.controls['courseDuration'].errors" class="invalid-feedback">
+            <div *ngIf="courseFormGroup.controls['courseDuration'].errors['required']">Course Duration is Required</div>
+          </div>
         </div>
       </div>
 
@@ -113,7 +118,12 @@
       <div class="col-md-4">
         <div class="form-group">
           <label class="text-muted">Course Description</label>
-          <input type="text" class="form-control form-font rounded-0 mt-1 mb-3" formControlName="courseDescription">
+          <input type="text" class="form-control form-font rounded-0 mt-1 mb-3"
+            [ngClass]="{'is-invalid': submitted && courseFormGroup.controls['courseDescription'].errors}"
+            formControlName="courseDescription">
+          <div *ngIf="submitted && courseFormGroup.controls['courseDescription'].errors" class="invalid-feedback">
+            <div *ngIf="courseFormGroup.controls['courseDescription'].errors['required']">Course Description is Required</div>
+          </div>
         </div>
       </div>
 
@@ -121,10 +131,15 @@
       <div class="col-md-4">
         <div class="form-group">
           <label class="text-muted">Instructor</label>
-          <select class="form-select form-font rounded-0 mt-1 mb-3" formControlName="instructor">
-            <option disabled>Choose Instructor</option>
+          <select class="form-select form-font rounded-0 mt-1 mb-3"
+            [ngClass]="{'is-invalid': submitted && courseFormGroup.controls['instructor'].errors}"
+            formControlName="instructor">
+            <option [ngValue]="null" disabled>Choose Instructor</option>
             <option *ngFor="let i of listInstructors" [ngValue]="i">{{i.firstName}} {{i.lastName}}</option>
           </select>
+          <div *ngIf="submitted && courseFormGroup.controls['instructor'].errors" class="invalid-feedback">
+            <div *ngIf="courseFormGroup.controls['instructor'].errors['required']">Instructor is Required</div>
+          </div>
         </div>
       </div>
 
