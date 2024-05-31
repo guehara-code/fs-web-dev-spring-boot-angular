@@ -18,6 +18,7 @@ export class CoursesComponent implements OnInit {
 
   searchFormGroup!: FormGroup;
   courseFormGroup!: FormGroup;
+  updateCourseFormGroup!: FormGroup;
   pageCourses$!: Observable<PageResponse<Course>>;
   instructors$!: Observable<Array<Instructor>>;
   currentPage: number = 0;
@@ -25,6 +26,7 @@ export class CoursesComponent implements OnInit {
   errorMessage!: string;
   errorInstructorMessage!: string;
   submitted: boolean = false;
+  defaultInstructor!: Instructor;
 
   constructor(private modalService: NgbModal, 
     private fb: FormBuilder, private courseService: CoursesService,
@@ -110,6 +112,34 @@ export class CoursesComponent implements OnInit {
         modal.close();
       }, error: err => {
         alert(err.message);
+      }
+    })
+  }
+
+  getUpdateModel(c: Course, updateContent: any) {
+    this.fetchInstructors();
+    this.updateCourseFormGroup = this.fb.group({
+      courseId:[c.courseId, Validators.required],
+      courseName:[c.courseName, Validators.required],
+      courseDuration:[c.courseDuration, Validators.required],
+      courseDescription:[c.courseDescription, Validators.required],
+      instructor:[c.instructor, Validators.required],
+    })
+    this.defaultInstructor = this.updateCourseFormGroup.controls['instructor'].value;
+    this.modalService.open(updateContent, {size: 'xl'});
+  }
+
+  onUpdateCourse(updateModal: any) {
+    this.submitted=true;
+    if(this.updateCourseFormGroup.invalid) return;
+    this.courseService.updateCourse(this.updateCourseFormGroup.value, this.updateCourseFormGroup.value.courseId).subscribe({
+      next: () => {
+        alert("Success updating course");
+        this.handleSearchCourses();
+        this.submitted = false;
+        updateModal.close();
+      }, error: err => {
+        alert(err.message)
       }
     })
   }

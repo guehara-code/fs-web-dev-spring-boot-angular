@@ -31,4 +31,8 @@ export class CoursesService {
   public saveCourse(course : Course) : Observable<Course> {
     return this.http.post<Course>(environment.backendHost + "/courses", course);
   }
+
+  public updateCourse(course: Course, courseId:number) : Observable<Course> {
+    return this.http.put<Course>(environment.backendHost + "/courses/" + courseId, course);
+  }
 }
