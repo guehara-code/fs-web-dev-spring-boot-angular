@@ -19,7 +19,7 @@ export class TeachersComponent implements OnInit {
   pageInstructors!: Observable<PageResponse<Instructor>>;
   errorMessage!: string;
   currentPage: number=0;
-  pageSize: number=10
+  pageSize: number=5;
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private instructorService: InstructorsService) {}
 
@@ -27,6 +27,7 @@ export class TeachersComponent implements OnInit {
     this.searchFormGroup = this.fb.group({
       keyword: this.fb.control('')
     })
+    this.handleSearchInstructors();
   }
 
 

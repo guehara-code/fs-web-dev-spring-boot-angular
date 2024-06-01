@@ -11,32 +11,54 @@
       </div>
     </div>
     <div class="box-content">
-      <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchInstructors()">
-        <div class="input-group w-25">
-          <input type="search" formControlName="keyword" class="form-control rounded mx-2" placeholder="Search" aria-label="Search">
-          <button type="submit" class="btn btn-outline-primary">search</button>
+      <ng-container *ngIf="pageInstructors | async as listInstructors; else failureOrLoading">
+        <div *ngIf="searchFormGroup" class="mb-2">
+          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchInstructors()">
+            <div class="input-group w-25">
+              <input type="search" formControlName="keyword" class="form-control rounded mx-2" placeholder="Search" aria-label="Search">
+              <button type="submit" class="btn btn-outline-primary">search</button>
+            </div>
+          </form>
         </div>
-      </form>
-      <table datatable class="table table-striped table-hover" id="example" style="width:100%">
-        <thead>
-        <tr>
-          <th>Instructor Id</th>
-          <th>Instructor First Name</th>
-          <th>Instructor Last Name</th>
-          <th>Instructor Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        <tfoot>
-        <tr>
-          <th>Instructor Id</th>
-          <th>Instructor First Name</th>
-          <th>Instructor Last Name</th>
-          <th>Instructor Summary</th>
-        </tr>
-        </tfoot>
-      </table>
+        <table class="table table-striped table-hover" id="example" style="width:100%">
+          <thead>
+          <tr>
+            <th>Instructor Id</th>
+            <th>Instructor First Name</th>
+            <th>Instructor Last Name</th>
+            <th>Instructor Summary</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of listInstructors.content">
+              <td>{{i.instructorId}}</td>
+              <td>{{i.firstName}}</td>
+              <td>{{i.lastName}}</td>
+              <td>{{i.summary}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <th>Instructor Id</th>
+            <th>Instructor First Name</th>
+            <th>Instructor Last Name</th>
+            <th>Instructor Summary</th>
+          </tr>
+          </tfoot>
+        </table>
+      </ng-container>
+      <ng-template #failureOrLoading>
+        <ng-container *ngIf="errorMessage; else loading">
+          <div class="text-danger">
+            {{errorMessage}}
+          </div>
+        </ng-container>
+        <ng-template #loading>
+          <div class="loader shadow-sm text-muted">
+            <span><i class="fa-solid ra-rotate ra-spin"></i></span> &nbsp; <span>Processing...</span>
+          </div>
+        </ng-template>
+      </ng-template> 
     </div>
   </div>
 </div>
