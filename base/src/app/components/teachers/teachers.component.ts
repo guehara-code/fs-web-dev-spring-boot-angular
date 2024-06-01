@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, catchError, throwError } from 'rxjs';
+import { Instructor } from 'src/app/model/instructor.model';
+import { PageResponse } from 'src/app/model/page.response.model';
+import { InstructorsService } from 'src/app/services/instructors.service';
 
 @Component({
   selector: 'app-teachers',
@@ -12,8 +16,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class TeachersComponent implements OnInit {
 
   searchFormGroup!: FormGroup;
+  pageInstructors!: Observable<PageResponse<Instructor>>;
+  errorMessage!: string;
+  currentPage: number=0;
+  pageSize: number=10
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder) {}
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private instructorService: InstructorsService) {}
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
@@ -28,7 +36,13 @@ export class TeachersComponent implements OnInit {
   }
 
   handleSearchInstructors() {
-    
+    let keyword = this.searchFormGroup.value.keyword;
+    this.pageInstructors = this.instructorService.searchInstructors(keyword, this.currentPage, this.pageSize).pipe(
+      catchError(err => {
+        this.errorMessage = err.message;
+        return throwError(err);
+      })
+    )
   }
 
 
