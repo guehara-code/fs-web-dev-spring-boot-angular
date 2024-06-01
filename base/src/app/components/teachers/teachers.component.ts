@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -10,15 +11,24 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class TeachersComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) {}
+  searchFormGroup!: FormGroup;
+
+  constructor(private modalService: NgbModal, private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.searchFormGroup = this.fb.group({
+      keyword: this.fb.control('')
+    })
   }
 
 
   getModal(content: any){
     this.modalService.open(content, { size: 'xl' })
     console.log("Hello world")
+  }
+
+  handleSearchInstructors() {
+    
   }
 
 
