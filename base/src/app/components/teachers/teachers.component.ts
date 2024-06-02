@@ -46,6 +46,10 @@ export class TeachersComponent implements OnInit {
     )
   }
 
+  gotoPage(page: number) {
+    this.currentPage = page;
+    this.handleSearchInstructors();
+  }
 
 }
 
