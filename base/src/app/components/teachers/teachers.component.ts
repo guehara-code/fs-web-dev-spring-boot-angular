@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Instructor } from 'src/app/model/instructor.model';
@@ -16,6 +16,7 @@ import { InstructorsService } from 'src/app/services/instructors.service';
 export class TeachersComponent implements OnInit {
 
   searchFormGroup!: FormGroup;
+  instructorFormGroup!: FormGroup;
   pageInstructors!: Observable<PageResponse<Instructor>>;
   errorMessage!: string;
   currentPage: number=0;
@@ -26,6 +27,15 @@ export class TeachersComponent implements OnInit {
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
       keyword: this.fb.control('')
+    })
+    this.instructorFormGroup = this.fb.group({
+      firstName: ["", Validators.required],
+      lastName: ["", Validators.required],
+      summary: ["", Validators.required],
+      user: this.fb.group({
+        email: ["", [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+        password: ["", Validators.required]
+      })
     })
     this.handleSearchInstructors();
   }
@@ -64,6 +74,14 @@ export class TeachersComponent implements OnInit {
         console.log(err);
       }
   })
+  }
+
+  onCloseModal(modal: any) {
+
+  }
+
+  onSaveInstructor(moda: any) {
+    console.log(this.instructorFormGroup);
   }
 
 }
