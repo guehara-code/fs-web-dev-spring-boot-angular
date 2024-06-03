@@ -24,4 +24,8 @@ export class InstructorsService {
   public deleteInstructor(instructorId: number) {
     return this.http.delete(environment.backendHost + "/instructors/" + instructorId);
   }
+
+  public saveInstructor(Instructor: Instructor): Observable<Instructor> {
+    return this.http.post<Instructor>(environment.backendHost + "/instructors", Instructor);
+  }
 }

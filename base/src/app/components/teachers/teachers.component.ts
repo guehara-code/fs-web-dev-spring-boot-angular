@@ -84,7 +84,19 @@ export class TeachersComponent implements OnInit {
   onSaveInstructor(modal: any) {
     console.log(this.instructorFormGroup);
     this.submitted = true;
-    if(this.instructorFormGroup.invalid) return;
+    if (this.instructorFormGroup.invalid) return;
+    this.instructorService.saveInstructor(this.instructorFormGroup.value).subscribe({
+      next: () => {
+        alert("success Saving Instructor");
+        this.handleSearchInstructors();
+        this.instructorFormGroup.reset();
+        this.submitted = false;
+        modal.close();
+      }, error: err => {
+        alert(err.message);
+        console.log(err);
+      }
+    })
   }
 
 }
