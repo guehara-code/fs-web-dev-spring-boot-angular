@@ -20,4 +20,8 @@ export class InstructorsService {
   public findAllInstructors(): Observable<Array<Instructor>> {
     return this.http.get<Array<Instructor>>(environment.backendHost + "/instructors/all");
   }
+
+  public deleteInstructor(instructorId: number) {
+    return this.http.delete(environment.backendHost + "/instructors/" + instructorId);
+  }
 }

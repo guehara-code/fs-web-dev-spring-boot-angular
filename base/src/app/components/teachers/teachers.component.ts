@@ -51,5 +51,20 @@ export class TeachersComponent implements OnInit {
     this.handleSearchInstructors();
   }
 
+  handleDeleteInstructor(i: Instructor) {
+    let conf = confirm("Are you sure?");
+    if(!conf) return;
+  
+    this.instructorService.deleteInstructor(i.instructorId).subscribe({
+      next: () => {
+        this.handleSearchInstructors();
+      },
+      error: err => {
+        alert(err.message);
+        console.log(err);
+      }
+  })
+  }
+
 }
 
