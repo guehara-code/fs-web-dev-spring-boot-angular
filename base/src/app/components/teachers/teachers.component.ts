@@ -19,10 +19,11 @@ export class TeachersComponent implements OnInit {
   instructorFormGroup!: FormGroup;
   pageInstructors!: Observable<PageResponse<Instructor>>;
   errorMessage!: string;
-  currentPage: number=0;
-  pageSize: number=5;
+  currentPage: number = 0;
+  pageSize: number = 5;
+  submitted: boolean = false;
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder, private instructorService: InstructorsService) {}
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private instructorService: InstructorsService) { }
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
@@ -41,9 +42,9 @@ export class TeachersComponent implements OnInit {
   }
 
 
-  getModal(content: any){
+  getModal(content: any) {
+    this.submitted = false;
     this.modalService.open(content, { size: 'xl' })
-    console.log("Hello world")
   }
 
   handleSearchInstructors() {
@@ -63,8 +64,8 @@ export class TeachersComponent implements OnInit {
 
   handleDeleteInstructor(i: Instructor) {
     let conf = confirm("Are you sure?");
-    if(!conf) return;
-  
+    if (!conf) return;
+
     this.instructorService.deleteInstructor(i.instructorId).subscribe({
       next: () => {
         this.handleSearchInstructors();
@@ -73,15 +74,17 @@ export class TeachersComponent implements OnInit {
         alert(err.message);
         console.log(err);
       }
-  })
+    })
   }
 
   onCloseModal(modal: any) {
 
   }
 
-  onSaveInstructor(moda: any) {
+  onSaveInstructor(modal: any) {
     console.log(this.instructorFormGroup);
+    this.submitted = true;
+    if(this.instructorFormGroup.invalid) return;
   }
 
 }
