@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.1",
-    "@angular/cli": "^18.0.1",
+    "@angular/cli": "^18.0.2",
     "@angular/compiler-cli": "^14.0.0",
     "@nativescript/schematics": "^11.2.0",
     "@types/datatables.net": "^1.10.21",
