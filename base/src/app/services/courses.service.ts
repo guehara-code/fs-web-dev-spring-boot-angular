@@ -10,17 +10,17 @@ import { Course } from '../model/course.model';
 })
 export class CoursesService {
 
-  constructor(private http:HttpClient) {
+  constructor(private http: HttpClient) {
 
   }
 
-  public searchCourses(keyword:string, currentPage:number, pageSize:number) : Observable<PageResponse<Course>> {
-    
-    return this.http.get<PageResponse<Course>>(environment.backendHost + "/courses?keyword=" + 
-                          keyword + "&page=" + currentPage + "&size=" + pageSize);
-                          
-  
-    
+  public searchCourses(keyword: string, currentPage: number, pageSize: number): Observable<PageResponse<Course>> {
+
+    return this.http.get<PageResponse<Course>>(environment.backendHost + "/courses?keyword=" +
+      keyword + "&page=" + currentPage + "&size=" + pageSize);
+
+
+
   }
 
   public deleteCourse(courseId: number) {
@@ -28,11 +28,16 @@ export class CoursesService {
     return this.http.delete(environment.backendHost + "/courses/" + courseId);
   }
 
-  public saveCourse(course : Course) : Observable<Course> {
+  public saveCourse(course: Course): Observable<Course> {
     return this.http.post<Course>(environment.backendHost + "/courses", course);
   }
 
-  public updateCourse(course: Course, courseId:number) : Observable<Course> {
+  public updateCourse(course: Course, courseId: number): Observable<Course> {
     return this.http.put<Course>(environment.backendHost + "/courses/" + courseId, course);
+  }
+
+  public getCoursesByInstructor(instructorId: number, currentPage: number, pageSize: number): Observable<PageResponse<Course>> {
+    return this.http.get<PageResponse<Course>>(environment.backendHost + "/instructors/" + 
+    instructorId + "/courses?page=" + currentPage + "&size=" + pageSize);
   }
 }

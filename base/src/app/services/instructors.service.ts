@@ -28,4 +28,6 @@ export class InstructorsService {
   public saveInstructor(Instructor: Instructor): Observable<Instructor> {
     return this.http.post<Instructor>(environment.backendHost + "/instructors", Instructor);
   }
+
+  
 }
