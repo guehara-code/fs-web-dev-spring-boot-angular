@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {catchError, Observable, throwError} from "rxjs";
-import {PageResponse} from "../../model/page.response.model";
-import {Student} from "../../model/student.model";
-import {StudentsService} from "../../services/students.service";
-import {UsersService} from "../../services/users.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { catchError, Observable, throwError } from "rxjs";
+import { PageResponse } from "../../model/page.response.model";
+import { Student } from "../../model/student.model";
+import { StudentsService } from "../../services/students.service";
+import { UsersService } from "../../services/users.service";
 // import {EmailExistsValidator} from "../../validators/emailexists.validator";
 
 @Component({
@@ -51,7 +51,7 @@ export class StudentsComponent implements OnInit {
 
 
   getModal(content: any) {
-    this.modalService.open(content, {size: 'xl'})
+    this.modalService.open(content, { size: 'xl' })
     this.submitted = false
   }
 
