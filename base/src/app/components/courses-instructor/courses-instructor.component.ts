@@ -27,7 +27,7 @@ export class CoursesInstructorComponent implements OnInit {
   submitted: boolean = false;
   courseFormGroup!: FormGroup;
 
-  constructor(private route: ActivatedRoute, private courseService: CoursesService, 
+  constructor(private route: ActivatedRoute, private courseService: CoursesService,
     private fb: FormBuilder, private modalService: NgbModal) {
 
   }
@@ -70,7 +70,7 @@ export class CoursesInstructorComponent implements OnInit {
       courseDescription: ["", Validators.required],
       instructor: [this.currentInstructor, Validators.required]
     })
-    this.modalService.open(content, {size:'xl'});
+    this.modalService.open(content, { size: 'xl' });
   }
 
   onCloseModal(modal: any) {
@@ -78,7 +78,8 @@ export class CoursesInstructorComponent implements OnInit {
     this.courseFormGroup.reset();
   }
 
-  onSaveModal(modal: any) {
-
+  onSaveCourse(modal: any) {
+    this.submitted = true;
+    if (this.courseFormGroup.invalid) return;
   }
 }
