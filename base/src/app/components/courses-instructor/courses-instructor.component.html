@@ -4,8 +4,9 @@
             <div class="box-header-grid">
                 <div class="box-header-title">These are your current courses</div>
                 <div class="box-header-button">
-                    <!-- modal to create new course -->
-
+                    <div class="btn-group btn-group-sm">
+                        <div class="btn btn-sm btn-primary-gradient" (click)="getModal(content)">New Course</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,6 +30,12 @@
                         </tr>
                     </tbody>
                 </table>
+                <ul class="nav nav-pills">
+                    <li *ngFor="let item of [].constructor(listCourses.totalPages); let page=index">
+                        <a [ngClass]="page==currentPage?'btn-info':'btn-outline-info'" (click)="gotoPage(page)"
+                            class="btn mb-1 ms-1 mt-1">{{page}}</a>
+                    </li>
+                </ul>
             </ng-container>
             <ng-template #failureOrLoading>
                 <ng-container *ngIf="errorMessage; else loading">
@@ -45,3 +52,37 @@
         </div>
     </div>
 </div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <div class="modal-title text-muted"><i class="fa-regular fa-circle-dot"></i> Course Form</div>
+        <button type="button" class="btn-close" aria-label="close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form [formGroup]="courseFormGroup" method="post">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-muted">Course Name</label>
+                        <input type="text" class="form-control form-font rounded-0 mt-1 mb-3" formControlName="courseName">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-muted">Course Duration</label>
+                        <input type="text" class="form-control form-font rounded-0 mt-1 mb-3" formControlName="courseDuration">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="text-muted">Course Description</label>
+                        <input type="text" class="form-control form-font rounded-0 mt-1 mb-3" formControlName="courseDescription">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onCloseModal(modal)">Close</button>
+            <button type="button" class="btn btn-sm btn-primary" (click)="onSaveModal(modal)">Save Course</button>
+        </div>
+    </form>
+</ng-template>

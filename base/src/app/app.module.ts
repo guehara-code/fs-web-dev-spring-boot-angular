@@ -35,6 +35,7 @@ const appRoutes: Routes = [
     TeachersComponent,
     NavbarComponent,
     HeaderComponent,
+    CoursesInstructorComponent
   ],
   imports: [
     BrowserModule,
