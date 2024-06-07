@@ -26,6 +26,7 @@ export class CoursesInstructorComponent implements OnInit {
   errorMessage!: string;
   submitted: boolean = false;
   courseFormGroup!: FormGroup;
+  updateCourseFormGroup!: FormGroup;
 
   constructor(private route: ActivatedRoute, private courseService: CoursesService,
     private fb: FormBuilder, private modalService: NgbModal) {
@@ -92,5 +93,21 @@ export class CoursesInstructorComponent implements OnInit {
         console.log(err);
       }
     })
+  }
+
+  getUpdateModal(c: Course, updateContent: any) {
+    this.updateCourseFormGroup = this.fb.group({
+      courseId: [c.courseId, Validators.required],
+      courseName: [c.courseName, Validators.required],
+      courseDuration: [c.courseDuration, Validators.required],
+      courseDescription: [c.courseDescription, Validators.required],
+      instructor: [c.instructor, Validators.required]
+    })
+    this.modalService.open(updateContent, { size: 'xl' });
+  }
+
+  onCloseUpdateModal(updateModal: any) {
+    updateModal.close();
+    this.updateCourseFormGroup.reset();
   }
 }
