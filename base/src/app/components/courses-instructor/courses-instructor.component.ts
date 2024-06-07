@@ -110,4 +110,9 @@ export class CoursesInstructorComponent implements OnInit {
     updateModal.close();
     this.updateCourseFormGroup.reset();
   }
+
+  onUpdateCourse(updateModal: any) {
+    this.submitted = true;
+    if (this.updateCourseFormGroup.invalid) return;
+  }
 }
