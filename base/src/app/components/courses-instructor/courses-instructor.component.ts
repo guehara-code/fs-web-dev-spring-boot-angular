@@ -112,7 +112,20 @@ export class CoursesInstructorComponent implements OnInit {
   }
 
   onUpdateCourse(updateModal: any) {
+    // console.log(this.updateCourseFormGroup.value);
     this.submitted = true;
     if (this.updateCourseFormGroup.invalid) return;
+    this.courseService.updateCourse(this.updateCourseFormGroup.value,
+      this.updateCourseFormGroup.value.courseId).subscribe({
+        next: () => {
+          alert("Success Updating Course");
+          this.handleSearchInstructorCourses();
+          this.submitted = false;
+          updateModal.close();
+        }, error: err => {
+          console.log(err);
+          alert(err.message);
+        }
+      })
   }
 }
