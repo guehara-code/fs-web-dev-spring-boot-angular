@@ -37,7 +37,11 @@ export class CoursesService {
   }
 
   public getCoursesByInstructor(instructorId: number, currentPage: number, pageSize: number): Observable<PageResponse<Course>> {
-    return this.http.get<PageResponse<Course>>(environment.backendHost + "/instructors/" + 
-    instructorId + "/courses?page=" + currentPage + "&size=" + pageSize);
+    return this.http.get<PageResponse<Course>>(environment.backendHost + "/instructors/" +
+      instructorId + "/courses?page=" + currentPage + "&size=" + pageSize);
+  }
+
+  public getCoursesByStudent(studentId: number, currentPage: number, pageSize: number): Observable<PageResponse<Course>> {
+    return this.http.get<PageResponse<Course>>(environment.backendHost + "/students/" + studentId + "/courses?page=" + currentPage + "&size=" + pageSize);
   }
 }

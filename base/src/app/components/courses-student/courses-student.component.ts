@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, catchError, throwError } from 'rxjs';
+import { Course } from 'src/app/model/course.model';
+import { PageResponse } from 'src/app/model/page.response.model';
+import { CoursesService } from 'src/app/services/courses.service';
 
 @Component({
   selector: 'app-courses-student',
@@ -11,12 +15,28 @@ import { ActivatedRoute } from '@angular/router';
 export class CoursesStudentComponent implements OnInit {
 
   studentId!: number;
+  pageCourses!: Observable<PageResponse<Course>>;
+  currentPage: number = 0;
+  pageSize: number = 5;
+  errorMessage!: string;
 
-  constructor (private route: ActivatedRoute) {
+  constructor (private route: ActivatedRoute, private courseService: CoursesService) {
 
   }
 
   ngOnInit(): void {
     this.studentId = this.route.snapshot.params['id'];    
+    this.handleSearchStudentCourses();
+  }
+
+  handleSearchStudentCourses() {
+    this.pageCourses = this.courseService.getCoursesByStudent(this.studentId, this.currentPage, this.pageSize).pipe(
+      catchError(err => {
+        this.errorMessage = err.errorMessage;
+        return throwError(err);
+      }
+
+      )
+    )
   }
 }
