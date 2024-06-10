@@ -50,6 +50,12 @@ export class CoursesStudentComponent implements OnInit {
     this.handleSearchStudentCourses();
   }
 
+  gotoPageForOtherCourses(page: number) {
+    this.otherCoursesCurrentPage = page;
+    this.handleSearchNonEnrolledInCourses();
+  }
+  
+
   handleSearchNonEnrolledInCourses() {
     this.pageOtherCourses = this.courseService.getNonEnrolledInCoursesByStudent(this.studentId, this.otherCoursesCurrentPage, this.otherCoursesPageSize).pipe(
       catchError(err => {
