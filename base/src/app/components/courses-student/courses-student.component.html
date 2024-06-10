@@ -58,4 +58,58 @@
             </ng-template>
         </div>
     </div>
+    <div class="box">
+        <div class="box-header">
+            <div class="box-header-grid">
+                <div class="box-header-title">Enroll In These New Courses</div>
+            </div>
+        </div>
+        <div class="box-content">
+            <ng-container *ngIf="pageOtherCourses | async as listOtherCourses; else otherCoursesFailureOrLoading">
+                <table class="table table-striped table-hover" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Course Id</th>
+                            <th>Course Name</th>
+                            <th>Course Duration</th>
+                            <th>Course Description</th>
+                            <th>Instructor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of listOtherCourses.content">
+                            <td>{{c.courseId}}</td>
+                            <td>{{c.courseName}}</td>
+                            <td>{{c.courseDuration}}</td>
+                            <td>{{c.courseDescription}}</td>
+                            <td>{{c.instructor.firstName}} {{c.instructor.lastName}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Course Id</th>
+                            <th>Course Name</th>
+                            <th>Course Duration</th>
+                            <th>Course Description</th>
+                            <th>Instructor</th>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            
+            </ng-container>
+            <ng-template #otherCoursesFailureOrLoading>
+                <ng-container *ngIf="otherCoursesErrorMessage; else loading">
+                    <div class="text danger">
+                        {{otherCoursesErrorMessage}}
+                    </div>
+                </ng-container>
+                <ng-template #loading>
+                    <div class="loader shadow-sm text-muted">
+                        <span><i class="fa-solic fa-rotate fa-spin"></i></span> <span>Processing</span>
+                    </div>
+                </ng-template>
+            </ng-template>
+        </div>
+    </div>
 </div>

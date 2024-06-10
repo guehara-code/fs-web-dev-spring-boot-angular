@@ -44,4 +44,8 @@ export class CoursesService {
   public getCoursesByStudent(studentId: number, currentPage: number, pageSize: number): Observable<PageResponse<Course>> {
     return this.http.get<PageResponse<Course>>(environment.backendHost + "/students/" + studentId + "/courses?page=" + currentPage + "&size=" + pageSize);
   }
+
+  public getNonEnrolledInCoursesByStudent(studentId: number, currentPage: number, pageSize: number) {
+    return this.http.get<PageResponse<Course>>(environment.backendHost + "/students/" + studentId + "/other-courses?page=" + currentPage + "&size=" + pageSize);
+  }
 }

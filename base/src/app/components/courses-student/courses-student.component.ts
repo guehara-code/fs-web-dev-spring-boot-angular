@@ -16,17 +16,22 @@ export class CoursesStudentComponent implements OnInit {
 
   studentId!: number;
   pageCourses!: Observable<PageResponse<Course>>;
+  pageOtherCourses!: Observable<PageResponse<Course>>;
   currentPage: number = 0;
+  otherCoursesCurrentPage: number = 0;
   pageSize: number = 5;
+  otherCoursesPageSize: number = 5;
   errorMessage!: string;
+  otherCoursesErrorMessage!: string;
 
-  constructor (private route: ActivatedRoute, private courseService: CoursesService) {
+  constructor(private route: ActivatedRoute, private courseService: CoursesService) {
 
   }
 
   ngOnInit(): void {
-    this.studentId = this.route.snapshot.params['id'];    
+    this.studentId = this.route.snapshot.params['id'];
     this.handleSearchStudentCourses();
+    this.handleSearchNonEnrolledInCourses();
   }
 
   handleSearchStudentCourses() {
@@ -44,4 +49,14 @@ export class CoursesStudentComponent implements OnInit {
     this.currentPage = page;
     this.handleSearchStudentCourses();
   }
+
+  handleSearchNonEnrolledInCourses() {
+    this.pageOtherCourses = this.courseService.getNonEnrolledInCoursesByStudent(this.studentId, this.otherCoursesCurrentPage, this.otherCoursesPageSize).pipe(
+      catchError(err => {
+        this.otherCoursesErrorMessage = err.message;
+        return throwError(err);
+      })
+    );
+  }
+
 }
