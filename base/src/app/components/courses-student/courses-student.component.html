@@ -83,6 +83,9 @@
                             <td>{{c.courseDuration}}</td>
                             <td>{{c.courseDescription}}</td>
                             <td>{{c.instructor.firstName}} {{c.instructor.lastName}}</td>
+                            <td>
+                                <button (click)="enrollIn(c)" class="btn btn-primary-gradient">Enroll In</button>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>

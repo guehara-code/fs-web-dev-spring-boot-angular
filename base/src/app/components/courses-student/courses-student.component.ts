@@ -65,4 +65,16 @@ export class CoursesStudentComponent implements OnInit {
     );
   }
 
+  enrollIn(c: Course) {
+    this.courseService.enrollStudentInCourse(c.courseId, this.studentId).subscribe({
+      next: () => {
+        this.handleSearchStudentCourses();
+        this.handleSearchNonEnrolledInCourses();
+      }, error: err => {
+        alert(err.message);
+        console.log(err);
+      }
+    })
+  }
+
 }
