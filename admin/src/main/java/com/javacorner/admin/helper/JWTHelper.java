@@ -7,9 +7,11 @@ import java.util.Map;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import org.springframework.stereotype.Component;
 
 import static com.javacorner.admin.constant.JWTUtil.*;
 
+@Component
 public class JWTHelper {
 
     Algorithm algorithm = Algorithm.HMAC256(SECRET);
@@ -21,7 +23,6 @@ public class JWTHelper {
                 .withIssuer(ISSUER)
                 .withClaim("roles", roles)
                 .sign(algorithm);
-
     }
 
     public String generateRefreshToken(String email) {
@@ -33,7 +34,7 @@ public class JWTHelper {
     }
 
     public String extractTokenFromHeaderIfExists(String authorizationHeader) {
-        if(authorizationHeader != null && authorizationHeader.startsWith(BEARER_PREFIX)) {
+        if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_PREFIX)) {
             return authorizationHeader.substring(BEARER_PREFIX.length());
         }
         return null;
