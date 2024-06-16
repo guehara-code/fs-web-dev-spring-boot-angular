@@ -50,10 +50,7 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        System.out.println("authConfig");
-        System.out.println("authConfig");
-        System.out.println("authConfig");
-        System.out.println(authConfig);
+
         return authConfig.getAuthenticationManager();
     }
 

@@ -22,8 +22,8 @@ public class User {
     @Column(name = "password", nullable = false, length = 64)
     private String password;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+//    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
