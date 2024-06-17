@@ -1,6 +1,7 @@
 package com.javacorner.admin.web;
 
 import com.javacorner.admin.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ public class UserRestController {
     }
 
     @GetMapping("/users")
+    @PreAuthorize("hasAuthority('Admin')")
     public boolean checkIfEmailExists(@RequestParam(name = "email", defaultValue = "") String email) {
 
         return userService.loadUserByEmail(email) != null;
