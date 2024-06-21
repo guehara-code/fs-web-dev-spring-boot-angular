@@ -31,4 +31,9 @@
             <button type="button" (click)="onLogin()" class="btn btn-sm btn-primary">Login</button>
         </div>
     </form>
+    <ng-container *ngIf="errorMessage">
+        <div class="alert alert-danger">
+            {{errorMessage}}
+        </div>
+    </ng-container>
 </div>

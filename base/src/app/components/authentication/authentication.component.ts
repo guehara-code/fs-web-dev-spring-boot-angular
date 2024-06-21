@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-authentication',
@@ -13,8 +14,9 @@ export class AuthenticationComponent implements OnInit {
 
   loginFormGroup!: FormGroup;
   submitted: boolean = false;
+  errorMessage!: string; 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
 
   }
 
@@ -28,6 +30,15 @@ export class AuthenticationComponent implements OnInit {
   onLogin() {
     this.submitted = true;
     if (this.loginFormGroup.invalid) return;
+    this.authService.login(this.loginFormGroup.value).subscribe({
+      next: loginResponse => {
+        console.log(loginResponse)
+      },
+      error: err => {
+        console.log(err);
+        this.errorMessage = "An error occurred";
+      }
+    })
   }
 
 }
