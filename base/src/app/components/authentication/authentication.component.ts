@@ -32,7 +32,7 @@ export class AuthenticationComponent implements OnInit {
     if (this.loginFormGroup.invalid) return;
     this.authService.login(this.loginFormGroup.value).subscribe({
       next: loginResponse => {
-        console.log(loginResponse)
+        this.authService.saveToken(loginResponse);
       },
       error: err => {
         console.log(err);
