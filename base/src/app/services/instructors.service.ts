@@ -29,5 +29,7 @@ export class InstructorsService {
     return this.http.post<Instructor>(environment.backendHost + "/instructors", Instructor);
   }
 
-  
+  public loadInstructorByEmail(email: string): Observable<Instructor> {
+    return this.http.get<Instructor>(environment.backendHost + "/instructor/find?email=" + email);
+  }
 }
