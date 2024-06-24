@@ -12,10 +12,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CoursesInstructorComponent } from './components/courses-instructor/courses-instructor.component';
 import { CoursesStudentComponent } from './components/courses-student/courses-student.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { AuthInterceptorService } from './services/auth.interceptor.service';
 
 
 const appRoutes: Routes = [
@@ -52,7 +53,11 @@ const appRoutes: Routes = [
     HttpClientModule,
     CommonModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

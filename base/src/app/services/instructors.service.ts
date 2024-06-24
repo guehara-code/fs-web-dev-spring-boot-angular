@@ -30,6 +30,6 @@ export class InstructorsService {
   }
 
   public loadInstructorByEmail(email: string): Observable<Instructor> {
-    return this.http.get<Instructor>(environment.backendHost + "/instructor/find?email=" + email);
+    return this.http.get<Instructor>(environment.backendHost + "/instructors/find?email=" + email);
   }
 }

@@ -11,11 +11,11 @@ export class LoggedUser {
         
     }
 
-    // get token() {
-    //     if (!this._expiration || new Date() > this._expiration) {
-    //         return null;
-    //     }
-    //     return this._token;
-    // }
+    get token() {
+        if (!this._expiration || new Date() > this._expiration) {
+            return null;
+        }
+        return this._token;
+    }
 }
 
