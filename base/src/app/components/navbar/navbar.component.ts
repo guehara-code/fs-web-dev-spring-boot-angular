@@ -24,10 +24,10 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe(data => {
       this.isAuthenticated = !!data;
-      if(!this.isAuthenticated) {
+      if (!this.isAuthenticated) {
         this.initializeState();
-      }
-      this.setRole(data);
+      } else if (!!data)
+        this.setRole(data);
     })
   }
 
@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
       this.isInstructor = true;
       this.instructorId = loggedUser.instructor?.instructorId;
     }
-    else if(!!loggedUser?.student) {
+    else if (!!loggedUser?.student) {
       this.isStudent = true;
       this.studentId = loggedUser.student?.studentId;
     }
