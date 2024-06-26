@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    throw new Error('Method not implemented.');
+    this.authService.logout();
   }
 
 }

@@ -84,6 +84,12 @@ export class AuthService {
     }
   }
 
+  logout() {
+    localStorage.clear();
+    this.user.next(null);
+    this.router.navigate(['/']);
+  }
+
   getExpirationDate(exp: number) {
     const date = new Date(0);
     date.setUTCSeconds(exp);
