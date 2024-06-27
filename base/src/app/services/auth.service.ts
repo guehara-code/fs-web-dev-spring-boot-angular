@@ -20,6 +20,7 @@ export class AuthService {
 
   jwtHelperService = new JwtHelperService();
   user = new BehaviorSubject<LoggedUser | null>(null);
+  tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router,
     private instructorService: InstructorsService, private studentService: StudentsService) {
@@ -33,12 +34,13 @@ export class AuthService {
   }
 
   saveToken(jwtTokens: LoginResponse) {
-    const decodeAccessToken = this.jwtHelperService.decodeToken(jwtTokens.accessToken);
-    const loggedUser = new LoggedUser(decodeAccessToken.sub, decodeAccessToken.roles,
-      jwtTokens.accessToken, this.getExpirationDate(decodeAccessToken.exp), undefined, undefined);
+    const decodedAccessToken = this.jwtHelperService.decodeToken(jwtTokens.accessToken);
+    const loggedUser = new LoggedUser(decodedAccessToken.sub, decodedAccessToken.roles,
+      jwtTokens.accessToken, this.getExpirationDate(decodedAccessToken.exp), undefined, undefined);
     this.user.next(loggedUser);
+    this.autoLogout(this.getExpirationDate(decodedAccessToken.exp).valueOf() - new Date().valueOf());
     localStorage.setItem('userData', JSON.stringify(loggedUser));
-    this.redirectLoggedInUser(decodeAccessToken, jwtTokens.accessToken);
+    this.redirectLoggedInUser(decodedAccessToken, jwtTokens.accessToken);
   }
 
 
@@ -77,10 +79,11 @@ export class AuthService {
       student: Student | undefined,
       instructor: Instructor | undefined
     } = JSON.parse(dataS);
-    
+
     const loadedUser = new LoggedUser(userData.username, userData.roles, userData._token, new Date(userData._expiration), userData.student, userData.instructor);
-    if(loadedUser.token) {
+    if (loadedUser.token) {
       this.user.next(loadedUser);
+      this.autoLogout(loadedUser._expiration.valueOf() - new Date().valueOf());
     }
   }
 
@@ -88,12 +91,22 @@ export class AuthService {
     localStorage.clear();
     this.user.next(null);
     this.router.navigate(['/']);
+    if(this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
   }
 
   getExpirationDate(exp: number) {
     const date = new Date(0);
     date.setUTCSeconds(exp);
     return date;
+  }
+
+  autoLogout(_expirationDuration: number) {
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, _expirationDuration)
   }
 
 }
