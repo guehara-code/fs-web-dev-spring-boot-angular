@@ -97,6 +97,21 @@ export class AuthService {
     this.tokenExpirationTimer = null;
   }
 
+  refreshInstructor(instructor: Instructor) {
+    const userData: {
+      username: string,
+      roles: string[],
+      _token: string,
+      _expiration: Date,
+      student: Student | undefined,
+      instructor: Instructor | undefined
+    } = JSON.parse(localStorage.getItem('userData')!);
+    if (!userData) return;
+    const loggedUser = new LoggedUser(userData.username, userData.roles, userData._token, new Date(userData._expiration), userData.student, instructor);
+    this.user.next(loggedUser);
+    localStorage.setItem('userData', JSON.stringify(loggedUser));
+  }
+
   getExpirationDate(exp: number) {
     const date = new Date(0);
     date.setUTCSeconds(exp);

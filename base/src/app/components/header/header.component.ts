@@ -69,6 +69,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.instructorService.updateInstructor(this.updateInstructorFormGroup.value, this.updateInstructorFormGroup.value.instructorId).subscribe({
       next:(instructor) => {
         alert("Success Updating Profile");
+        this.authService.refreshInstructor(instructor);
+        this.submitted = false;
         modal.close();
       }, error: err => {
         alert(err.message)
