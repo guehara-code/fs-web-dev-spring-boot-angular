@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Instructor } from 'src/app/model/instructor.model';
 import { LoggedUser } from 'src/app/model/logged-user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { InstructorsService } from 'src/app/services/instructors.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   submitted: boolean = false;
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private modalService: NgbModal) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private modalService: NgbModal,
+    private instructorService: InstructorsService) { }
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe(loggedUser => {
@@ -64,6 +66,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onUpdateInstructor(modal: any) {
     this.submitted = true;
     if(this.updateInstructorFormGroup.invalid) return;
+    this.instructorService.updateInstructor(this.updateInstructorFormGroup.value, this.updateInstructorFormGroup.value.instructorId).subscribe({
+      next:(instructor) => {
+        alert("Success Updating Profile");
+        modal.close();
+      }, error: err => {
+        alert(err.message)
+      }
+    })
   }
 
 }
