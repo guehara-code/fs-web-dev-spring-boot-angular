@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userSub!: Subscription;
   isAuthenticated = false;
   isInstructor = false;
+  isStudent = false;
   name!: string | undefined;
   currentInstructor!: Instructor | undefined;
   updateInstructorFormGroup!: FormGroup;
@@ -32,9 +33,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.user.subscribe(loggedUser => {
       this.isAuthenticated = !!LoggedUser;
       this.isInstructor = !!loggedUser?.instructor;
+      this.isStudent = !!loggedUser?.instructor;
       if (this.isInstructor) {
         this.name = loggedUser?.instructor?.firstName + " " + loggedUser?.instructor?.lastName;
         this.currentInstructor = loggedUser?.instructor;
+      } else if(this.isStudent) {
+        this.name = loggedUser?.student?.firstName + " " + loggedUser?.student?.lastName;
       }
     })
   }
