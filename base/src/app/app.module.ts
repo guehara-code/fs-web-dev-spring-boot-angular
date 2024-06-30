@@ -17,15 +17,16 @@ import { CoursesInstructorComponent } from './components/courses-instructor/cour
 import { CoursesStudentComponent } from './components/courses-student/courses-student.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { AuthInterceptorService } from './services/auth.interceptor.service';
+import { AuthGuardService } from './services/auth.guard.service';
 
 
 const appRoutes: Routes = [
   { path: '', component: AuthenticationComponent },
-  { path: 'students', component: StudentsComponent },
-  { path: 'courses', component: CoursesComponent },
-  { path: 'teachers', component: TeachersComponent },
-  { path: 'instructor-courses/:id', component: CoursesInstructorComponent },
-  { path: 'student-courses/:id', component: CoursesStudentComponent },
+  { path: 'students', component: StudentsComponent, canActivate: [AuthGuardService] },
+  { path: 'courses', component: CoursesComponent, canActivate: [AuthGuardService] },
+  { path: 'teachers', component: TeachersComponent, canActivate: [AuthGuardService] },
+  { path: 'instructor-courses/:id', component: CoursesInstructorComponent, canActivate: [AuthGuardService] },
+  { path: 'student-courses/:id', component: CoursesStudentComponent, canActivate: [AuthGuardService] },
   { path: 'navbar', component: NavbarComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'auth', component: AuthenticationComponent }
