@@ -91,7 +91,7 @@ export class AuthService {
     localStorage.clear();
     this.user.next(null);
     this.router.navigate(['/']);
-    if(this.tokenExpirationTimer) {
+    if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
     this.tokenExpirationTimer = null;
@@ -110,6 +110,23 @@ export class AuthService {
     const loggedUser = new LoggedUser(userData.username, userData.roles, userData._token, new Date(userData._expiration), userData.student, instructor);
     this.user.next(loggedUser);
     localStorage.setItem('userData', JSON.stringify(loggedUser));
+  }
+
+  refreshStudent(student: Student) {
+    const userData: {
+      username: string,
+      roles: string[],
+      _token: string,
+      _expiration: Date,
+      student: Student | undefined,
+      instructor: Instructor | undefined
+    } = JSON.parse(localStorage.getItem('userData')!);
+    if (!userData) return;
+    const loggedUser = new LoggedUser(userData.username, userData.roles, userData._token, new Date(userData._expiration), student, userData.instructor);
+    if (loggedUser.token) {
+      this.user.next(loggedUser);
+      localStorage.setItem('userData', JSON.stringify(loggedUser));
+    }
   }
 
   getExpirationDate(exp: number) {
